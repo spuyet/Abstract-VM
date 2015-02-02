@@ -1,4 +1,5 @@
 #include "OperandFactory.hpp"
+#include "Operand.hpp"
 
 OperandFactory::OperandFactory()
 {
@@ -20,31 +21,31 @@ OperandFactory::createOperand(eOperandType type, std::string const& value) const
 IOperand const*
 OperandFactory::createInt8( std::string const & value ) const
 {
-	return (new Int8(value));
+	return (new Operand<Int8>(value));
 }
 
 IOperand const*
 OperandFactory::createInt16( std::string const & value ) const
 {
-	return (new Int16(value));
+	return (new Operand<Int16>(value));
 }
 
 IOperand const*
 OperandFactory::createInt32( std::string const & value ) const
 {
-	return (new Int32(value));
+	return (new Operand<Int32>(value));
 }
 
 IOperand const*
 OperandFactory::createFloat( std::string const & value ) const
 {
-	return (new Float(value));
+	return (new Operand<Float>(value));
 }
 
 IOperand const*
 OperandFactory::createDouble( std::string const & value ) const
 {
-	return (new Double(value));
+	return (new Operand<Double>(value));
 }
 
 OperandFactory::~OperandFactory()

@@ -2,7 +2,15 @@
 #define I_OPERAND_HPP
 
 #include <string>
-#include "OperandFactory.hpp"
+
+enum eOperandType
+{
+	Int8,
+	Int16,
+	Int32,
+	Float,
+	Double
+};
 
 class IOperand
 {
@@ -16,6 +24,7 @@ public:
 	virtual IOperand const * operator%( IOperand const & rhs ) const = 0; // Modulo
 	virtual std::string const & toString( void ) const = 0; // String representation of the instance
 	virtual ~IOperand( void ) {}
+
 };
 
 #endif

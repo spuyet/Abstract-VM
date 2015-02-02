@@ -3,22 +3,12 @@
 
 #include <string>
 #include <map>
-
-class IOperand;
+#include "IOperand.hpp"
 
 class OperandFactory
 {
 public:
 	OperandFactory();
-
-	enum eOperandType
-	{
-		Int8 = 0,
-		Int16,
-		Int32,
-		Float,
-		Double
-	};
 
 	IOperand const * createOperand( eOperandType type, std::string const & value ) const;
 
