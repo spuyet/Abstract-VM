@@ -1,6 +1,6 @@
 .PHONY: all clean fclean re
 
-CXXFLAGS := -c -Wall -Wextra -Werror -I include
+CXXFLAGS := -std=c++11 -c -Wall -Wextra -Werror -I include
 
 FILES := main.cpp OperandFactory.cpp
 
