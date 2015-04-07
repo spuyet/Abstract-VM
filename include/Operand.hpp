@@ -9,6 +9,7 @@
 #include <limits.h>
 #include <math.h>
 #include "IOperand.hpp"
+#include "OperandFactory.hpp"
 
 template <typename T>
 class Operand : public IOperand
@@ -50,8 +51,6 @@ public:
 		try
 		{
 			auto r = (type < Float) ? std::stoll(_str) + std::stoll(rhs.toString()) : std::stold(_str) + std::stold(rhs.toString());
-			std::cout << _str << std::endl;
-			std::cout << std::stold(_str) << std::endl;
 			if (((type < Float) ? hasOverflow<long long>(r, type) : hasOverflow<long double>(r, type)))
 				throw OperandException("Overflow or underflow !");
 			std::stringstream ss (std::stringstream::out);

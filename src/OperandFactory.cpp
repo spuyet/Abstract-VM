@@ -3,11 +3,11 @@
 
 OperandFactory::OperandFactory()
 {
-		create[Int8] = &OperandFactory::createInt8;
-		create[Int16] = &OperandFactory::createInt16;
-		create[Int32] = &OperandFactory::createInt32;
-		create[Float] = &OperandFactory::createFloat;
-		create[Double] = &OperandFactory::createDouble;
+	create[Int8] = &OperandFactory::createInt8;
+	create[Int16] = &OperandFactory::createInt16;
+	create[Int32] = &OperandFactory::createInt32;
+	create[Float] = &OperandFactory::createFloat;
+	create[Double] = &OperandFactory::createDouble;
 }
 
 IOperand const*
