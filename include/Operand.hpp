@@ -2,7 +2,7 @@
 #define OPERAND_H
 
 #include <iostream>
-
+#include <iomanip>
 #include <string>
 #include <sstream>
 #include <float.h>
@@ -24,10 +24,20 @@ public:
 	{
 		try
 		{
-			auto v = (type < Float) ? std::stoll(value) : std::stold(value);
-			if (((type < Float) ? hasOverflow<long long>(v, type) : hasOverflow<long double>(v, type)))
-				throw OperandException("Overflow or underflow !");
-			_value = static_cast<T>(v);
+			if (type < Float)
+			{
+				long long v = std::stoll(value);
+				if (hasOverflow<long long>(v, type))
+					throw OperandException("Overflow or underflow !");
+				_value = static_cast<T>(v);
+			}
+			else
+			{
+				long double	v = std::stold(value);
+				if (hasOverflow<long double>(v, type))
+					throw OperandException("Overflow or underflow !");
+				_value = static_cast<T>(v);
+			}			
 		}
 		catch(const std::out_of_range& oor)
 		{
@@ -47,7 +57,8 @@ public:
 
 	IOperand const * operator+( IOperand const & rhs ) const // Sum
 	{
-		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
+		eOperandType type = ( _type >= rhs.getType() ) ? _type : rhs.getType();
+		int precision = ( _precision >= rhs.getPrecision() ) ? _precision: rhs.getPrecision();
 		try
 		{
 			std::stringstream ss (std::stringstream::out);
@@ -63,7 +74,7 @@ public:
 				long double r = std::stold(_str) + std::stold(rhs.toString());
 				if (hasOverflow<long double>(r, type))
 					throw OperandException("Overflow or underflow !");
-				ss << removeTrailingZeros(std::to_string(r));
+				ss << std::setprecision(precision) << r;
 			}
 			return (_factory->createOperand(type, ss.str()));
 		}
@@ -77,6 +88,7 @@ public:
 	IOperand const * operator-( IOperand const & rhs ) const // Difference
 	{
 		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
+		int precision = ( _precision >= rhs.getPrecision() ) ? _precision: rhs.getPrecision();
 		try
 		{
 			std::stringstream ss (std::stringstream::out);
@@ -92,7 +104,7 @@ public:
 				long double r = std::stold(_str) - std::stold(rhs.toString());
 				if (hasOverflow<long double>(r, type))
 					throw OperandException("Overflow or underflow !");
-				ss << removeTrailingZeros(std::to_string(r));
+				ss << std::setprecision(precision) << r;
 			}
 			return (_factory->createOperand(type, ss.str()));
 		}
@@ -106,13 +118,25 @@ public:
 	IOperand const * operator*( IOperand const & rhs ) const // Product
 	{
 		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
+		int precision = ( _precision >= rhs.getPrecision() ) ? _precision: rhs.getPrecision();
+
 		try
 		{
-			auto r = (type < Float) ? std::stoll(_str) * std::stoll(rhs.toString()) : std::stold(_str) * std::stold(rhs.toString());
-			if (((type < Float) ? hasOverflow<long long>(r, type) : hasOverflow<long double>(r, type)))
-				throw OperandException("Overflow or underflow !");
-			std::stringstream ss (std::stringstream::out);
-			ss << r;
+			std::stringstream ss(std::stringstream::out);
+			if (type < Float)
+			{
+				long long r = std::stoll(_str) * std::stoll(rhs.toString());
+				if (hasOverflow<long long>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << r;
+			}
+			else
+			{
+				long double r = std::stold(_str) * std::stold(rhs.toString());
+				if (hasOverflow<long double>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << std::setprecision(precision) << r;
+			}
 			return (_factory->createOperand(type, ss.str()));
 		}
 		catch(const std::out_of_range& oor)
@@ -125,15 +149,26 @@ public:
 	IOperand const * operator/( IOperand const & rhs ) const // Quotient
 	{
 		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
+		int precision = ( _precision >= rhs.getPrecision() ) ? _precision: rhs.getPrecision();
 		try
 		{
 			if (std::stold(rhs.toString()) == 0)
 				throw OperandException("Division by zero !");
-			auto r = (type < Float) ? std::stoll(_str) / std::stoll(rhs.toString()) : std::stold(_str) / std::stold(rhs.toString());
-			if (((type < Float) ? hasOverflow<long long>(r, type) : hasOverflow<long double>(r, type)))
-				throw OperandException("Overflow or underflow !");
-			std::stringstream ss (std::stringstream::out);
-			ss << r;
+			std::stringstream ss(std::stringstream::out);
+			if (type < Float)
+			{
+				long long r = std::stoll(_str) / std::stoll(rhs.toString());
+				if (hasOverflow<long long>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << r;
+			}
+			else
+			{
+				long double r = std::stold(_str) / std::stold(rhs.toString());
+				if (hasOverflow<long double>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << std::setprecision(precision) << r;
+			}
 			return (_factory->createOperand(type, ss.str()));
 		}
 		catch(const std::out_of_range& oor)
@@ -146,15 +181,26 @@ public:
 	IOperand const * operator%( IOperand const & rhs ) const // Modulo
 	{
 		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
+		int precision = ( _precision >= rhs.getPrecision() ) ? _precision: rhs.getPrecision();
 		try
 		{
 			if (std::stold(rhs.toString()) == 0)
 				throw OperandException("Modulo by zero !");
-			auto r = (type < Float) ? std::stoll(_str) % std::stoll(rhs.toString()) : fmod(std::stold(_str), std::stold(rhs.toString()));
-			if (((type < Float) ? hasOverflow<long long>(r, type) : hasOverflow<long double>(r, type)))
-				throw OperandException("Overflow or underflow !");
-			std::stringstream ss (std::stringstream::out);
-			ss << r;
+			std::stringstream ss(std::stringstream::out);
+			if (type < Float)
+			{
+				long long r = std::stoll(_str) % std::stoll(rhs.toString());
+				if (hasOverflow<long long>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << r;
+			}
+			else
+			{
+				long double r = fmod(std::stold(_str), std::stold(rhs.toString()));
+				if (hasOverflow<long double>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << std::setprecision(precision) << r;
+			}
 			return (_factory->createOperand(type, ss.str()));
 		}
 		catch(const std::out_of_range& oor)

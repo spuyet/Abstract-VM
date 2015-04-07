@@ -67,9 +67,9 @@ Lexer::~Lexer()
 std::map<token, const std::string>
 Lexer::_masks = 
 {
-    { DOUBLE, "double[(]([0-9]+.[0-9]+)[)]" },
+    { DOUBLE, "double[(]([0-9]+[.]{0,1}[0-9]*)[)]" },
     { INT8, "int8[(]([0-9]+)[)]" },
     { INT16, "int16[(]([0-9]+)[)]" },
     { INT32, "int32[(]([0-9]+)[)]" },
-    { FLOAT, "float[(]([0-9]+.[0-9]+)[)]"},
+    { FLOAT, "float[(]([0-9]+[.]{0,1}[0-9]*)[)]"},
 };

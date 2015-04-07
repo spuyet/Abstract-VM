@@ -25,9 +25,7 @@ Parser::run()
     {
         if (it->type > END)
             continue;
-        void (Parser::*f)(std::list<Lexeme>::iterator &);
-        f = _operations.at(it->type - PUSH);
-        (*this.*f)(it);
+        (this->*_operations.at(it->type - PUSH))(it);
     }
     throw ParserException("Missing exit instruction at the end of program");
 }

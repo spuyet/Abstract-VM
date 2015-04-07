@@ -21,31 +21,31 @@ OperandFactory::createOperand(eOperandType type, std::string const& value) const
 IOperand const*
 OperandFactory::createInt8( std::string const & value ) const
 {
-	return (new Operand<char>(value, Int8, sizeof(char) * 8, this));
+	return (new Operand<char>(value, Int8, 0, this));
 }
 
 IOperand const*
 OperandFactory::createInt16( std::string const & value ) const
 {
-	return (new Operand<short int>(value, Int16, sizeof(short int) * 8, this));
+	return (new Operand<short int>(value, Int16, 0, this));
 }
 
 IOperand const*
 OperandFactory::createInt32( std::string const & value ) const
 {
-	return (new Operand<int>(value, Int32, sizeof(int) * 8, this));
+	return (new Operand<int>(value, Int32, 0, this));
 }
 
 IOperand const*
 OperandFactory::createFloat( std::string const & value ) const
 {
-	return (new Operand<float>(value, Float, sizeof(float) * 8, this));
+	return (new Operand<float>(value, Float, 12, this));
 }
 
 IOperand const*
 OperandFactory::createDouble( std::string const & value ) const
 {
-	return (new Operand<double>(value, Double, sizeof(double) * 8, this));
+	return (new Operand<double>(value, Double, 20, this));
 }
 
 OperandFactory::~OperandFactory()
