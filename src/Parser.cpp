@@ -26,11 +26,10 @@ Parser::run()
         if (it->type > END)
             continue;
         void (Parser::*f)(std::list<Lexeme>::iterator &);
-        // std::cout << it->type - PUSH << std::endl;
         f = _operations.at(it->type - PUSH);
         (*this.*f)(it);
-        // std::cout << "stack.size = " << _stack.size() << std::endl;
     }
+    throw ParserException("Missing exit instruction at the end of program");
 }
 
 void
@@ -38,12 +37,6 @@ Parser::push(std::list<Lexeme>::iterator& it)
 {
     std::list<Lexeme>::iterator next = it;
     next++;
-    // if (next == _lexemes.end()
-    //     || next->type < INT8 
-    //     || next->type > FLOAT)
-    //     throw ParserException("Value error !");
-    // std::cout << next->type << std::endl;
-    // std::cout << next->value << std::endl;
     _stack.push_front(_factory.createOperand(static_cast<eOperandType>(next->type - INT8), next->value));
 }
 
@@ -93,6 +86,8 @@ Parser::add(std::list<Lexeme>::iterator& it)
     const IOperand* r  = *op1 + *op2;
     _stack.pop_front();
     _stack.pop_front();
+    delete op1;
+    delete op2;
     _stack.push_front(r);
 }
 
@@ -107,6 +102,8 @@ Parser::sub(std::list<Lexeme>::iterator& it)
     const IOperand* r  = *op2 - *op1;
     _stack.pop_front();
     _stack.pop_front();
+    delete op1;
+    delete op2;
     _stack.push_front(r);
 }
 
@@ -121,6 +118,8 @@ Parser::mul(std::list<Lexeme>::iterator& it)
     const IOperand* r  = *op1 * *op2;
     _stack.pop_front();
     _stack.pop_front();
+    delete op1;
+    delete op2;
     _stack.push_front(r);
 }
 
@@ -135,6 +134,8 @@ Parser::div(std::list<Lexeme>::iterator& it)
     const IOperand* r  = *op2 / *op1;
     _stack.pop_front();
     _stack.pop_front();
+    delete op1;
+    delete op2;
     _stack.push_front(r);
 }
 
@@ -149,6 +150,8 @@ Parser::mod(std::list<Lexeme>::iterator& it)
     const IOperand* r  = *op2 % *op1;
     _stack.pop_front();
     _stack.pop_front();
+    delete op1;
+    delete op2;
     _stack.push_front(r);
 }
 
@@ -156,6 +159,12 @@ void
 Parser::print(std::list<Lexeme>::iterator& it)
 {
     (void)it;
+    if (_stack.size() == 0)
+        throw ParserException("Print instruction on empty stack");
+    const IOperand* op1 = *(_stack.begin());
+    if (op1->getType() != Int8)
+        throw ParserException("Print instruction on no 8-bit integer");
+    std::cout << static_cast<char>(std::stoi(op1->toString())) << std::endl;
 }
 
 void

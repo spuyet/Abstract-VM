@@ -1,0 +1,10 @@
+; ------------------------
+; 08_mul_type_simple.avm -
+; ------------------------
+
+push int8(42)
+push int8(2)
+dump
+mul
+dump
+exit

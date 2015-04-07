@@ -47,14 +47,24 @@ public:
 
 	IOperand const * operator+( IOperand const & rhs ) const // Sum
 	{
-		eOperandType type = (_precision >= rhs.getPrecision()) ? _type : rhs.getType();
+		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
 		try
 		{
-			auto r = (type < Float) ? std::stoll(_str) + std::stoll(rhs.toString()) : std::stold(_str) + std::stold(rhs.toString());
-			if (((type < Float) ? hasOverflow<long long>(r, type) : hasOverflow<long double>(r, type)))
-				throw OperandException("Overflow or underflow !");
 			std::stringstream ss (std::stringstream::out);
-			ss << r;
+			if (type < Float)
+			{
+				long long r = std::stoll(_str) + std::stoll(rhs.toString());
+				if (hasOverflow<long long>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << r;
+			}
+			else
+			{
+				long double r = std::stold(_str) + std::stold(rhs.toString());
+				if (hasOverflow<long double>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << removeTrailingZeros(std::to_string(r));
+			}
 			return (_factory->createOperand(type, ss.str()));
 		}
 		catch(const std::out_of_range& oor)
@@ -66,14 +76,24 @@ public:
 
 	IOperand const * operator-( IOperand const & rhs ) const // Difference
 	{
-		eOperandType type = (_precision >= rhs.getPrecision()) ? _type : rhs.getType();
+		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
 		try
 		{
-			auto r = (type < Float) ? std::stoll(_str) - std::stoll(rhs.toString()) : std::stold(_str) - std::stold(rhs.toString());
-			if (((type < Float) ? hasOverflow<long long>(r, type) : hasOverflow<long double>(r, type)))
-				throw OperandException("Overflow or underflow !");
 			std::stringstream ss (std::stringstream::out);
-			ss << r;
+			if (type < Float)
+			{
+				long long r = std::stoll(_str) - std::stoll(rhs.toString());
+				if (hasOverflow<long long>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << r;
+			}
+			else
+			{
+				long double r = std::stold(_str) - std::stold(rhs.toString());
+				if (hasOverflow<long double>(r, type))
+					throw OperandException("Overflow or underflow !");
+				ss << removeTrailingZeros(std::to_string(r));
+			}
 			return (_factory->createOperand(type, ss.str()));
 		}
 		catch(const std::out_of_range& oor)
@@ -85,7 +105,7 @@ public:
 
 	IOperand const * operator*( IOperand const & rhs ) const // Product
 	{
-		eOperandType type = (_precision >= rhs.getPrecision()) ? _type : rhs.getType();
+		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
 		try
 		{
 			auto r = (type < Float) ? std::stoll(_str) * std::stoll(rhs.toString()) : std::stold(_str) * std::stold(rhs.toString());
@@ -104,7 +124,7 @@ public:
 
 	IOperand const * operator/( IOperand const & rhs ) const // Quotient
 	{
-		eOperandType type = (_precision >= rhs.getPrecision()) ? _type : rhs.getType();
+		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
 		try
 		{
 			if (std::stold(rhs.toString()) == 0)
@@ -125,7 +145,7 @@ public:
 
 	IOperand const * operator%( IOperand const & rhs ) const // Modulo
 	{
-		eOperandType type = (_precision >= rhs.getPrecision()) ? _type : rhs.getType();
+		eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
 		try
 		{
 			if (std::stold(rhs.toString()) == 0)
@@ -147,6 +167,18 @@ public:
 	std::string const & toString( void ) const // String representation of the instance
 	{
 		return (_str);
+	}
+
+	std::string	removeTrailingZeros(std::string s) const
+	{
+		for(int i = s.length() - 1; i >= 0; i--)
+		{
+			if (s[i] == '0')
+				s.erase(s.end() - 1);
+			else
+				break;
+		}
+		return s;
 	}
 
 	template <typename U>

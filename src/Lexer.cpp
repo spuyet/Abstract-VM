@@ -33,6 +33,8 @@ Lexer::run()
             std::cerr << "Unknow instruction: \"" << error << "\"" << std::endl;
             throw LexerException("Illegal instruction");
         }
+        if (tok == END)
+            break;
         const std::string value = ((tok > EOL) ? getValue(yytext, static_cast<token>(tok)) : yytext);
         _lexemes.push_back({static_cast<token>(tok), value});
     }

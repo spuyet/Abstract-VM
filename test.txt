@@ -11,13 +11,17 @@ dump
 push float(44.55)
 dump
 mul
-
+print
 dump
 push double(42.42)
 assert double(42.42)
 
 sub
 push int32(42)
+dump
+push int8(48)
+
+print
 
 dump
 

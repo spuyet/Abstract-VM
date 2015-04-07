@@ -1,0 +1,29 @@
+; -----------------------
+; 05_add_types_hard.avm -
+; -----------------------
+
+push int8(42)
+push int16(2987)
+sub
+
+push int32(98755)
+sub
+
+push int8(84)
+sub
+
+push float(3457.409)
+sub
+
+push int32(67)
+sub
+
+push int16(890)
+sub
+
+push double(0.678909)
+sub
+
+dump
+
+exit
