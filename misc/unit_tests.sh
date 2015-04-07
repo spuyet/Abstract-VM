@@ -35,7 +35,7 @@ bakwht='\033[47m'   # White
 txtrst='\033[0m'    # Text Reset
 
 mkdir -p misc/output
-echo -e "${txtylw}${undylw}Launching unit tests for abstract VM...${txtrst} \n"
+echo -e "${txtylw}${undylw}${bldylw}Launching unit tests for abstract VM...${txtrst} \n"
 i=1
 for d in misc/tests/*; do
 	echo "$i - Running test file \"$d\":"

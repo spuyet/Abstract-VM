@@ -1,0 +1,16 @@
+; --------------------
+; 17_assert_hard.avm -
+; --------------------
+
+push int8(42)
+assert int8(42)
+push int32(983)
+assert int32(983)
+push int16(876)
+assert int16(876)
+push float(98.4242)
+assert float(98.4242)
+push double(42.424242)
+assert double(42.424242)
+
+exit

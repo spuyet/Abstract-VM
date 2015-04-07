@@ -1,0 +1,29 @@
+; -----------------------
+; 13_mod_types_hard.avm -
+; -----------------------
+
+push int8(42)
+push int16(2)
+mod
+
+push int32(8)
+mod
+
+push int8(2)
+mod
+
+push float(3.05)
+mod
+
+push int32(6)
+mod
+
+push int16(1)
+mod
+
+push double(1.32)
+mod
+
+dump
+
+exit

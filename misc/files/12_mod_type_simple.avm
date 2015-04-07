@@ -1,0 +1,10 @@
+; -----------------------
+; 12_mod_type_simple.avm -
+; -----------------------
+
+push int8(42)
+push int8(21)
+dump
+mod
+dump
+exit

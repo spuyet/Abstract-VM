@@ -1,0 +1,52 @@
+; ---------------------
+; 20_syntax_error.avm -
+; ---------------------
+
+push int8(21)
+dump
+push int8(42)
+push int16(2987)
+add
+
+push int32(98755)
+add
+
+push int8(84)
+add
+push int8(42)
+
+push int8(21)
+dump
+mod
+dump
+
+push float(3457.409)
+add
+
+42
+
+push int32(67)
+add
+
+push int16(890)
+add
+dump
+pop
+push int32(42424242)
+dump
+push float(42.42)
+pop
+dump
+
+push double(0.678909)
+add
+
+dump
+
+add
+dump
+exit
+
+push int8(42)
+print
+exit

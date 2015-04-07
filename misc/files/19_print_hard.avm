@@ -1,0 +1,19 @@
+; -------------------
+; 19_print_hard.avm -
+; -------------------
+
+push int8(42)
+print
+push int8(55)
+print
+push int8(119)
+print
+push int8(86)
+print
+push int8(76)
+print
+push int8(69)
+print
+push int8(32)
+print
+exit
