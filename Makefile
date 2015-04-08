@@ -26,6 +26,16 @@ obj/%.o: src/%.cpp
 	@mkdir -p obj
 	$(CXX) $(CXXFLAGS) $< -o $@
 
+tests:
+	mkdir -p "misc/output"
+	i=1
+	for d in misc/tests/* ; do \
+		echo "$$i - Running test file \"$$d\":\n" \
+		ruby $$d ; \
+		i=$$(($$i+1)) ; \
+		echo "" ; \
+	done
+
 clean:
 	rm -rf obj
 
