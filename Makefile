@@ -28,9 +28,8 @@ obj/%.o: src/%.cpp
 
 tests:
 	@mkdir -p "misc/output"
-	@i=1
 	@echo "\n\033[1;33m\033[4;33mLaunching unit tests for abstract VM...\n\033[0m"
-	@for d in misc/tests/* ; do \
+	@i=1; for d in misc/tests/* ; do \
 		echo "$$i - Running test file \"$$d\":" ; \
 		ruby $$d ; \
 		i=$$(($$i+1)) ; \

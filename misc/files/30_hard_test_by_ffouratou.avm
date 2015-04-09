@@ -1,5 +1,6 @@
-;push int8(8);swag
-;push int32(+9);swag
+push int8(8);swag
+push int32(+9);swag
 push float(+9.45678908765467897654356789fE+46);swag
 dump
+add
 exit
