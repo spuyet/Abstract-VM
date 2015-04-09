@@ -12,6 +12,9 @@ class Parser
 {
 
 public:
+    Parser();
+    Parser(const Parser&);
+    const Parser& operator=(const Parser&);
     Parser(std::list<Lexeme>& lexemes);
     void    run();
 

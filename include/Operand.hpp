@@ -17,6 +17,10 @@ class Operand : public IOperand
 {
 public:
 
+	Operand();
+	Operand(const Operand&);
+	const Operand& operator=(const Operand&);
+
 	Operand(std::string const & value, eOperandType type, int precision, const OperandFactory* factory)
 	: _type(type)
 	, _precision(precision)

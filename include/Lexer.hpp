@@ -37,9 +37,11 @@ struct Lexeme
 class Lexer
 {
 public:
+    Lexer();
     Lexer(int ac, char** av);
+    Lexer(const Lexer&);
+    const Lexer& operator=(const Lexer&);
     void                run();
-    // std::string         getValue(char* str, token type);
     ~Lexer();
     std::list<Lexeme>&  lexemes();
 private:
