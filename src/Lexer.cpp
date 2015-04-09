@@ -31,21 +31,9 @@ Lexer::run()
             throw LexerException("Illegal instruction");
         if (tok == END)
             break;
-        const std::string value = ((tok > EOL) ? getValue(yytext, static_cast<token>(tok)) : yytext);
+        const std::string value = yytext;
         _lexemes.push_back({static_cast<token>(tok), value});
     }
-}
-
-
-std::string
-Lexer::getValue(char* str, token type)
-{
-    std::string subject(str);
-    std::regex re(_masks[type]);
-    std::smatch match;
-    
-    std::regex_search(subject, match, re) && match.size();
-    return match.str(1);
 }
 
 std::list<Lexeme>&
@@ -54,18 +42,7 @@ Lexer::lexemes()
     return _lexemes;
 }
 
-
 Lexer::~Lexer()
 {
 
 }
-
-std::map<token, const std::string>
-Lexer::_masks = 
-{
-    { DOUBLE, "double[(]([0-9]+[.]{0,1}[0-9]*)[)]" },
-    { INT8, "int8[(]([0-9]+)[)]" },
-    { INT16, "int16[(]([0-9]+)[)]" },
-    { INT32, "int32[(]([0-9]+)[)]" },
-    { FLOAT, "float[(]([0-9]+[.]{0,1}[0-9]*)[)]"},
-};

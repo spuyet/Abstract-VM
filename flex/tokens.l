@@ -6,15 +6,24 @@
 %option noyywrap
 %option nounput
 %option noinput
+%x STATE_INT8 STATE_INT16 STATE_INT32 STATE_FLOAT STATE_DOUBLE QUIT
 %%
 
-[ \t]                       	;
-[\n]                        	return EOL;
-int8\([0-9]+\)              	return INT8;
-int16\([0-9]+\)             	return INT16;
-int32\([0-9]+\)             	return INT32;
-float\([0-9]+[.]{0,1}[0-9]*\)	return FLOAT;
-double\([0-9]+[.]{0,1}[0-9]*\)	return DOUBLE;
+
+[ \t]                       							;
+[\n]                        							return EOL;
+"int8("													BEGIN(STATE_INT8);
+"int16("												BEGIN(STATE_INT16);
+"int32("												BEGIN(STATE_INT32);
+"float("												BEGIN(STATE_FLOAT);
+"double("												BEGIN(STATE_DOUBLE);
+
+<STATE_INT8>[-+]?[0-9]+										{ BEGIN(QUIT); return INT8; }
+<STATE_INT16>[-+]?[0-9]+          	  						{ BEGIN(QUIT); return INT16; }  
+<STATE_INT32>[-+]?[0-9]+             						{ BEGIN(QUIT); return INT32; }  
+<STATE_FLOAT>[-+]?[0-9]*\.?[0-9]*[f]?([eE][+-]?[0-9]+)?		{ BEGIN(QUIT); return FLOAT; }
+<STATE_DOUBLE>[-+]?[0-9]*\.?[0-9]*[f]?([eE][+-]?[0-9]+)?	{ BEGIN(QUIT); return DOUBLE; }
+<QUIT>")"													BEGIN(INITIAL);
 
 "push"                  return PUSH;
 "pop"                   return POP;
@@ -27,8 +36,8 @@ double\([0-9]+[.]{0,1}[0-9]*\)	return DOUBLE;
 "mod"                   return MOD;
 "print"                 return PRINT;
 "exit"                  return EXIT;
-";;"                    return END;
+^;;$                    return END;
 ;.*                     return COMMENT;
-.                       return ERROR;
+<*>.                    return ERROR;
 
 %%

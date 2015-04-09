@@ -33,8 +33,7 @@ Parser::run()
 void
 Parser::push(std::list<Lexeme>::iterator& it)
 {
-    std::list<Lexeme>::iterator next = it;
-    next++;
+    std::list<Lexeme>::iterator next = ++it;
     _stack.push_front(_factory.createOperand(static_cast<eOperandType>(next->type - INT8), next->value));
 }
 
@@ -64,8 +63,7 @@ Parser::assert(std::list<Lexeme>::iterator& it)
 {
     if (_stack.size() == 0)
         throw ParserException("Assert instruction on empty stack");
-    std::list<Lexeme>::iterator next = it;
-    next++;
+    std::list<Lexeme>::iterator next = ++it;
     const IOperand* op = *(_stack.begin());
     if (op->toString() != next->value)
         throw ParserException("Assert instruction with different value");

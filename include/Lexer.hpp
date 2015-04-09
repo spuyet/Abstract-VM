@@ -26,7 +26,7 @@ enum token {
     INT32 = 274,
     FLOAT = 275,
     DOUBLE = 276,
-    ERROR = 277
+    ERROR = 278
 };
 
 struct Lexeme
@@ -40,7 +40,7 @@ class Lexer
 public:
     Lexer(int ac, char** av);
     void                run();
-    std::string         getValue(char* str, token type);
+    // std::string         getValue(char* str, token type);
     ~Lexer();
     std::list<Lexeme>&  lexemes();
 private:
@@ -66,7 +66,6 @@ private:
 
     };
     std::list<Lexeme>                               _lexemes;
-    static  std::map<token, const std::string>      _masks;
 };
 
 #endif
