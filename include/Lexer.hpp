@@ -3,7 +3,6 @@
 
 #include <string>
 #include <list>
-#include <map>
 #include "AvmException.hpp"
 
 enum token {
