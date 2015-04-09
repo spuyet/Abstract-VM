@@ -7,4 +7,4 @@ r = system "./avm #{test} > #{output}"
 
 fd = File.open(output, "rb")
 content = fd.read
-should_equal("#{42 + 2987 + 98755 + 84 + 3457.409 + 67 + 890 + 0.678909}\n", content, file)
+should_equal_n("#{42 + 2987 + 98755 + 84 + 3457.409 + 67 + 890 + 0.678909}\n", content, 7, file)

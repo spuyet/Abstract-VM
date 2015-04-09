@@ -8,4 +8,4 @@ r = system "./avm #{test} > #{output}"
 
 fd = File.open(output, "rb")
 content = fd.read
-should_equal_n("#{42 * 2 * 8 * 2 * 3.05 * 6 * 1 * 0.32}\n", content, 17, file)
+should_equal_n("#{42 * 2 * 8 * 2 * 3.05 * 6 * 1 * 0.32}\n", content, 7, file)

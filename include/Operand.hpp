@@ -21,7 +21,6 @@ public:
 	: _type(type)
 	, _precision(precision)
 	, _factory(factory)
-	, _str(value)
 	{
 		try
 		{
@@ -31,6 +30,9 @@ public:
 				if (hasOverflow<long long>(v, type))
 					throw OperandException("Overflow or underflow !");
 				_value = static_cast<T>(v);
+				std::stringstream ss(std::stringstream::out);
+				ss << std::setprecision(precision) << v;
+				_str = ss.str();
 			}
 			else
 			{
@@ -38,7 +40,10 @@ public:
 				if (hasOverflow<long double>(v, type))
 					throw OperandException("Overflow or underflow !");
 				_value = static_cast<T>(v);
-			}			
+				std::stringstream ss(std::stringstream::out);
+				ss << std::setprecision(precision) << v;
+				_str = ss.str();
+			}
 		}
 		catch(const std::out_of_range& oor)
 		{
@@ -279,7 +284,7 @@ private:
 	eOperandType							_type;
 	int										_precision;
 	const OperandFactory*					_factory;
-	const std::string						_str;
+	std::string								_str;
 };
 
 #endif

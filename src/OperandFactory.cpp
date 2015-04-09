@@ -39,13 +39,13 @@ OperandFactory::createInt32( std::string const & value ) const
 IOperand const*
 OperandFactory::createFloat( std::string const & value ) const
 {
-	return (new Operand<float>(value, Float, 12, this));
+	return (new Operand<float>(value, Float, 7, this));
 }
 
 IOperand const*
 OperandFactory::createDouble( std::string const & value ) const
 {
-	return (new Operand<double>(value, Double, 20, this));
+	return (new Operand<double>(value, Double, 14, this));
 }
 
 OperandFactory::~OperandFactory()
