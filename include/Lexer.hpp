@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include "AvmException.hpp"
 
 enum token {
     PUSH = 258,
@@ -44,11 +45,12 @@ public:
     std::list<Lexeme>&  lexemes();
 private:
 
-    class LexerException : public std::exception
+    class LexerException : public AvmException
     {
     public:
         LexerException(const std::string& message)
-        : _msg(message)
+        : AvmException()
+        , _msg(message)
         {
 
         }

@@ -7,8 +7,8 @@ r = system "./avm #{test} > #{output}"
 if r
     fd = File.open(output, "rb")
     content = fd.read
-    should_equal(2, content.length, file)
-    should_equal(content, "*\n", file)
+    should_equal(2, content.length, "#{file}_1")
+    should_equal(content, "*\n", "#{file}_2")
 else
     puts "Error returned by avm !".red
 end

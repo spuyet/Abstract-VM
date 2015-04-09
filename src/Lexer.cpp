@@ -28,11 +28,7 @@ Lexer::run()
     while ((tok = yylex()))
     {
         if (tok == ERROR)
-        {
-            std::string error(yytext);
-            std::cerr << "Unknow instruction: \"" << error << "\"" << std::endl;
             throw LexerException("Illegal instruction");
-        }
         if (tok == END)
             break;
         const std::string value = ((tok > EOL) ? getValue(yytext, static_cast<token>(tok)) : yytext);

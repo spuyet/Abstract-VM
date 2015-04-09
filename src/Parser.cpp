@@ -52,7 +52,7 @@ Parser::dump(std::list<Lexeme>::iterator& it)
 {
     (void)it;
     if (_stack.size() == 0)
-        throw ParserException("Pop instruction on empty stack");
+        throw ParserException("Dump instruction on empty stack");
     std::list<const IOperand*>::iterator itr;
 
     for (itr = _stack.begin(); itr != _stack.end(); ++itr)
@@ -80,10 +80,10 @@ Parser::add(std::list<Lexeme>::iterator& it)
     if (_stack.size() < 2)
         throw ParserException("Add on stack with less than two values");
     const IOperand* op1 = *(_stack.begin());
-    const IOperand* op2 = *(++_stack.begin());
+    _stack.pop_front();
+    const IOperand* op2 = *(_stack.begin());
+    _stack.pop_front();
     const IOperand* r  = *op1 + *op2;
-    _stack.pop_front();
-    _stack.pop_front();
     delete op1;
     delete op2;
     _stack.push_front(r);
@@ -96,10 +96,10 @@ Parser::sub(std::list<Lexeme>::iterator& it)
     if (_stack.size() < 2)
         throw ParserException("Sub on stack with less than two values");
     const IOperand* op1 = *(_stack.begin());
-    const IOperand* op2 = *(++_stack.begin());
+    _stack.pop_front();
+    const IOperand* op2 = *(_stack.begin());
+    _stack.pop_front();
     const IOperand* r  = *op2 - *op1;
-    _stack.pop_front();
-    _stack.pop_front();
     delete op1;
     delete op2;
     _stack.push_front(r);
@@ -112,10 +112,10 @@ Parser::mul(std::list<Lexeme>::iterator& it)
     if (_stack.size() < 2)
         throw ParserException("Mul on stack with less than two values");
     const IOperand* op1 = *(_stack.begin());
-    const IOperand* op2 = *(++_stack.begin());
+    _stack.pop_front();
+    const IOperand* op2 = *(_stack.begin());
+    _stack.pop_front();
     const IOperand* r  = *op1 * *op2;
-    _stack.pop_front();
-    _stack.pop_front();
     delete op1;
     delete op2;
     _stack.push_front(r);
@@ -128,10 +128,10 @@ Parser::div(std::list<Lexeme>::iterator& it)
     if (_stack.size() < 2)
         throw ParserException("Div on stack with less than two values");
     const IOperand* op1 = *(_stack.begin());
-    const IOperand* op2 = *(++_stack.begin());
+    _stack.pop_front();
+    const IOperand* op2 = *(_stack.begin());
+    _stack.pop_front();
     const IOperand* r  = *op2 / *op1;
-    _stack.pop_front();
-    _stack.pop_front();
     delete op1;
     delete op2;
     _stack.push_front(r);
@@ -144,10 +144,10 @@ Parser::mod(std::list<Lexeme>::iterator& it)
     if (_stack.size() < 2)
         throw ParserException("Mod on stack with less than two values");
     const IOperand* op1 = *(_stack.begin());
-    const IOperand* op2 = *(++_stack.begin());
+    _stack.pop_front();
+    const IOperand* op2 = *(_stack.begin());
+    _stack.pop_front();
     const IOperand* r  = *op2 % *op1;
-    _stack.pop_front();
-    _stack.pop_front();
     delete op1;
     delete op2;
     _stack.push_front(r);

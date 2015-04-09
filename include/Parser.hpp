@@ -3,6 +3,7 @@
 
 #include <map>
 #include <list>
+#include "AvmException.hpp"
 #include "OperandFactory.hpp"
 #include "IOperand.hpp"
 #include "Lexer.hpp"
@@ -29,11 +30,12 @@ public:
 
     ~Parser();
 private:
-    class ParserException : public std::exception
+    class ParserException : public AvmException
     {
     public:
         ParserException(const std::string& message)
-        : _msg(message)
+        : AvmException()
+        , _msg(message)
         {
 
         }

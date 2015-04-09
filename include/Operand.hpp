@@ -8,6 +8,7 @@
 #include <float.h>
 #include <limits.h>
 #include <math.h>
+#include "AvmException.hpp"
 #include "IOperand.hpp"
 #include "OperandFactory.hpp"
 
@@ -253,11 +254,12 @@ public:
 	}
 
 private:
-	class OperandException : public std::exception
+	class OperandException : public AvmException
 	{
 	public:
 		OperandException(const std::string& message)
-		: _msg(message)
+		: AvmException()
+		, _msg(message)
 		{
 
 		}

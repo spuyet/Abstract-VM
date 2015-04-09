@@ -2,14 +2,12 @@ require_relative "../lib/should_equal.rb"
 
 file = "misc/files/#{File.basename(__FILE__)}"
 test = "misc/files/#{File.basename(__FILE__, ".*")}.avm"
-# output = "misc/output/#{File.basename(__FILE__, ".*")}.txt"
-# r = system "./avm #{test}"
-pid = fork {
-    system "./avm #{test}";
-    if $?.to_i != 0
-        puts "#{file} passed with sucess !".green
-    else
-        puts "#{file} failed !".red
-    end
-}
-Process.waitpid pid
+output = "misc/output/#{File.basename(__FILE__, ".*")}.txt"
+r = system "./avm #{test} > #{output}"
+if r
+	fd = File.open(output, "rb")
+	content = fd.read
+	should_equal("Dump instruction on empty stack\n", content, file)
+else
+	puts "Error returned by avm !".red
+end
