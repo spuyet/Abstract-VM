@@ -28,10 +28,10 @@ languages.
 | **Comments** | Comments start with a ’;’ and finish with a newline. |
 
 ## Compile
-Just execute the `make` command for launch the compilation.
+Just execute the `make` command to launch the compilation.
 
 ## Tests
-30 unit tests written in ruby are provided, run `make tests` for start all tests.
+Some tests are provided, run `make tests` and magic happens.
 
 ## About
-Abstract-VM is a school project for 42.
+Abstract-VM is a 42 school project.
